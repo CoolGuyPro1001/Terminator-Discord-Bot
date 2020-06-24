@@ -1,0 +1,586 @@
+{
+	"places":
+	[
+		{
+			"name": "GO",
+			"type": "go"
+		},
+		{
+			"name": "Mediterranean Avenue",
+			"type": "property",
+			"color": "Brown",
+			"price": 60,
+			"baseRent": 2,
+			"oneRent": 10,
+			"twoRent": 30,
+			"threeRent": 90,
+			"fourRent": 160,
+			"hotelRent": 250,
+			"mortgage": 30,
+			"housePrice": 50
+		},
+		{
+			"name": "Community Chest",
+			"type": "chest"
+		},
+		{
+			"name": "Baltic Avenue",
+			"type": "property",
+			"color": "Brown",
+			"price": 60,
+			"baseRent": 4,
+			"oneRent": 20,
+			"twoRent": 60,
+			"threeRent": 180,
+			"fourRent": 320,
+			"hotelRent": 450,
+			"mortgage": 30,
+			"housePrice": 50
+		},
+		{
+			"name": "Income Tax",
+			"type": "tax",
+			"price": 200
+		},
+		{
+			"name": "Reading Railroad",
+			"type": "property",
+			"color": "Station",
+			"baseRent": 25,
+			"twoRent": 50,
+			"threeRent": 100,
+			"fourRent": 200,
+			"mortgage": 100
+		},
+		{
+			"name": "Oriental Avenue",
+			"type": "property",
+			"color": "Light Blue",
+			"price": 100,
+			"baseRent": 6,
+			"oneRent": 30,
+			"twoRent": 90,
+			"threeRent": 270,
+			"fourRent": 400,
+			"hotelRent": 550,
+			"mortgage": 50,
+			"housePrice": 50
+		},
+		{
+			"name": "Chance",
+			"type": "chance"
+		},
+		{
+			"name": "Vermont Avenue",
+			"type": "property",
+			"color": "Light Blue",
+			"price": 100,
+			"baseRent": 6,
+			"oneRent": 30,
+			"twoRent": 90,
+			"threeRent": 270,
+			"fourRent": 400,
+			"hotelRent": 550,
+			"mortgage": 50,
+			"housePrice": 50
+		},
+		{
+			"name": "Connecticut Avenue",
+			"type": "property",
+			"color": "Light Blue",
+			"price": 120,
+			"baseRent": 8,
+			"oneRent": 40,
+			"twoRent": 100,
+			"threeRent": 300,
+			"fourRent": 450,
+			"hotelRent": 600,
+			"mortgage": 60,
+			"housePrice": 50
+		},
+		{
+			"name": "Jail",
+			"type": "visiting",
+			"escapeCost": 50
+		},
+		{
+			"name": "St. Charles Place",
+			"type": "property",
+			"color": "Pink",
+			"price": 140,
+			"baseRent": 10,
+			"oneRent": 50,
+			"twoRent": 150,
+			"threeRent": 450,
+			"fourRent": 625,
+			"hotelRent": 750,
+			"mortgage": 70,
+			"housePrice": 100
+		},
+		{
+			"name": "Electric Company",
+			"type": "property",
+			"color": "Utilities",
+			"price": 150,
+			"oneRent": 4,
+			"twoRent": 10,
+			"mortgage": 75
+		},
+		{
+			"name": "States Avenue",
+			"type": "property",
+			"color": "Pink",
+			"price": 140,
+			"baseRent": 10,
+			"oneRent": 50,
+			"twoRent": 150,
+			"threeRent": 450,
+			"fourRent": 625,
+			"hotelRent": 750,
+			"mortgage": 70,
+			"housePrice": 100
+		},
+		{
+			"name": "Virginia Avenue",
+			"type": "property",
+			"color": "Pink",
+			"price": 160,
+			"baseRent": 12,
+			"oneRent": 60,
+			"twoRent": 180,
+			"threeRent": 500,
+			"fourRent": 700,
+			"hotelRent": 900,
+			"mortgage": 80,
+			"housePrice": 100
+		},
+		{
+			"name": "Pennsylvania Railroad",
+			"type": "property",
+			"color": "Station",
+			"baseRent": 25,
+			"twoRent": 50,
+			"threeRent": 100,
+			"fourRent": 200,
+			"mortgage": 100
+		},
+		{
+			"name": "St. James Place",
+			"type": "property",
+			"color": "Orange",
+			"price": 180,
+			"baseRent": 14,
+			"oneRent": 70,
+			"twoRent": 200,
+			"threeRent": 550,
+			"fourRent": 750,
+			"hotelRent": 950,
+			"mortgage": 90,
+			"housePrice": 100
+		},
+		{
+			"name": "Community Chest",
+			"type": "chest"
+		},
+		{
+			"name": "Tennessee Avenue",
+			"type": "property",
+			"color": "Orange",
+			"price": 180,
+			"baseRent": 14,
+			"oneRent": 70,
+			"twoRent": 200,
+			"threeRent": 550,
+			"fourRent": 750,
+			"hotelRent": 950,
+			"mortgage": 90,
+			"housePrice": 100
+		},
+		{
+			"name": "New York Avenue",
+			"type": "property",
+			"color": "Orange",
+			"price": 200,
+			"baseRent": 16,
+			"oneRent": 80,
+			"twoRent": 220,
+			"threeRent": 600,
+			"fourRent": 800,
+			"hotelRent": 1000,
+			"mortgage": 100,
+			"housePrice": 100
+		},
+		{
+			"name": "Free Parking",
+			"type": "parking"
+		},
+		{
+			"name": "Kentucky Avenue",
+			"type": "property",
+			"color": "Red",
+			"price": 220,
+			"baseRent": 18,
+			"oneRent": 90,
+			"twoRent": 250,
+			"threeRent": 700,
+			"fourRent": 875,
+			"hotelRent": 1050,
+			"mortgage": 110,
+			"housePrice": 150
+		},
+		{
+			"name": "Chance",
+			"type": "chance"
+		},
+		{
+			"name": "Indiana Avenue",
+			"type": "property",
+			"color": "Red",
+			"price": 220,
+			"baseRent": 18,
+			"oneRent": 90,
+			"twoRent": 250,
+			"threeRent": 700,
+			"fourRent": 875,
+			"hotelRent": 1050,
+			"mortgage": 110,
+			"housePrice": 150
+		},
+		{
+			"name": "Illinois Avenue",
+			"type": "property",
+			"color": "Red",
+			"price": 240,
+			"baseRent": 20,
+			"oneRent": 100,
+			"twoRent": 300,
+			"threeRent": 750,
+			"fourRent": 925,
+			"hotelRent": 1100,
+			"mortgage": 120,
+			"housePrice": 150
+		},
+		{
+			"name": "B. & O. Railroad",
+			"type": "property",
+			"color": "Station",
+			"baseRent": 25,
+			"twoRent": 50,
+			"threeRent": 100,
+			"fourRent": 200,
+			"mortgage": 100
+		},
+		{
+			"name": "Alantic Avenue",
+			"type": "property",
+			"color": "Yellow",
+			"price": 260,
+			"baseRent": 22,
+			"oneRent": 110,
+			"twoRent": 330,
+			"threeRent": 800,
+			"fourRent": 975,
+			"hotelRent": 1150,
+			"mortgage": 130,
+			"housePrice": 150
+		},
+		{
+			"name": "Ventnor Avenue",
+			"type": "property",
+			"color": "Yellow",
+			"price": 260,
+			"baseRent": 22,
+			"oneRent": 110,
+			"twoRent": 330,
+			"threeRent": 800,
+			"fourRent": 975,
+			"hotelRent": 1150,
+			"mortgage": 130,
+			"housePrice": 150
+		},
+		{
+			"name": "Water Works",
+			"type": "property",
+			"color": "Utilities",
+			"price": 150,
+			"oneRent": 4,
+			"twoRent": 10,
+			"mortgage": 75
+		},
+		{
+			"name": "Marvin Gardens",
+			"type": "property",
+			"color": "Yellow",
+			"price": 280,
+			"baseRent": 24,
+			"oneRent": 120,
+			"twoRent": 360,
+			"threeRent": 850,
+			"fourRent": 1025,
+			"hotelRent": 1200,
+			"mortgage": 140,
+			"housePrice": 150
+		},
+		{
+			"name": "Go To Jail",
+			"type": "jail"
+		},
+		{
+			"name": "Pacific Avenue",
+			"type": "property",
+			"color": "Green",
+			"price": 300,
+			"baseRent": 26,
+			"oneRent": 130,
+			"twoRent": 390,
+			"threeRent": 900,
+			"fourRent": 1100,
+			"hotelRent": 1275,
+			"mortgage": 150,
+			"housePrice": 200
+		},
+		{
+			"name": "North Carolina Avenue",
+			"type": "property",
+			"color": "Green",
+			"price": 300,
+			"baseRent": 26,
+			"oneRent": 130,
+			"twoRent": 390,
+			"threeRent": 900,
+			"fourRent": 1100,
+			"hotelRent": 1275,
+			"mortgage": 150,
+			"housePrice": 200
+		},
+		{
+			"name": "Community Chest",
+			"type": "chest"
+		},
+		{
+			"name": "Pennsylvania Avenue",
+			"type": "property",
+			"color": "Green",
+			"price": 320,
+			"baseRent": 28,
+			"oneRent": 150,
+			"twoRent": 450,
+			"threeRent": 1000,
+			"fourRent": 1200,
+			"hotelRent": 1400,
+			"mortgage": 160,
+			"housePrice": 200
+		},
+		{
+			"name": "Short Line",
+			"type": "property",
+			"color": "Station",
+			"baseRent": 25,
+			"twoRent": 50,
+			"threeRent": 100,
+			"fourRent": 200,
+			"mortgage": 100
+		},
+		{
+			"name": "Chance"
+		},
+		{
+			"name": "Park Place",
+			"type": "property",
+			"color": "Blue",
+			"price": 350,
+			"baseRent": 35,
+			"oneRent": 175,
+			"twoRent": 500,
+			"threeRent": 1100,
+			"fourRent": 1300,
+			"hotelRent": 1500,
+			"mortgage": 175,
+			"housePrice": 200
+		},
+		{
+			"name": "Luxury Tax",
+			"type": "tax",
+			"price": 75
+		},
+		{
+			"name": "Boardwalk",
+			"type": "property",
+			"color": "Blue",
+			"price": 400,
+			"baseRent": 50,
+			"oneRent": 200,
+			"twoRent": 600,
+			"threeRent": 1400,
+			"fourRent": 1700,
+			"hotelRent": 2000,
+			"mortgage": 200,
+			"housePrice": 200
+		}
+	],
+
+	"chance":
+	[
+		{
+			"name": "Advance to GO",
+			"type": "move",
+			"destination": "go"
+		},
+		{
+			"name": "Advance to Illinois Avenue",
+			"type": "move",
+			"destination": "illinois"
+		},
+		{
+			"name": "Advance to St. Charles Place",
+			"type": "move",
+			"destination": "charles"
+		},
+		{
+			"name": "Advance to Nearest Utility",
+			"type": "move",
+			"destination": "utility"
+		},
+		{
+			"name": "Advance to the nearest Railroad and pay owner twice the rental to which he/she is otherwise entitled\nIf Railroad is unowned, you may buy it from the bank",
+			"type": "move",
+			"desntination": "railroad"
+		},
+		{
+			"name": "Bank pays you a dividend of $50",
+			"type": "reward",
+			"amount": 50
+		},
+		{
+			"name": "Get out of Jail Free",
+			"type": "free"
+		},
+		{
+			"name": "Go Back Three Spaces",
+			"type": "move",
+			"desntination": -3
+		},
+		{
+			"name": "Go to Jail. Do not pass GO, do not collect $200",
+			"type": "jail"
+		},
+		{
+			"name": "Make general repairs on all your property: For each house pay $25, For each hotel $100",
+			"type": "housePay",
+			"house": 25,
+			"hotel": 100
+		},
+		{
+			"name": "Pay poor tax of $15",
+			"type": "pay",
+			"amount": 15
+		},
+		{
+			"name": "Take a trip to Reading Railroad. If you pass Go, collect $200",
+			"type": "move",
+			"destination": "reading"
+		},
+		{
+			"name": "Take a walk on the Boardwalk",
+			"type": "move",
+			"desntination": "boardwalk"
+		},
+		{
+			"name": "You have been elected Chairman of the Board. Pay each palyer $50",
+			"type": "playerPay"
+		},
+		{
+			"name": "Your building loan matures. Receive $150",
+			"type": "reward",
+			"amount": 150
+		},
+		{
+			"name": "You have won a crossword competition. Collect $100",
+			"type": "reward",
+			"amount": 100
+		}
+	],
+
+	"chest":
+	[
+		{
+			"name": "Advance to GO",
+			"type": "move",
+			"destination": "go"
+		},
+		{
+			"name": "Bank error in your favor. Collect $200",
+			"type": "reward",
+			"amount": 200
+		},
+		{
+			"name": "Docotor's fees. Pay $50",
+			"type": "pay",
+			"amount": 50
+		},
+		{
+			"name": "Get Out of Jail Free",
+			"type": "free"
+		},
+		{
+			"name": "Go to Jail. Do not pass GO, Do not collect $200",
+			"type": "jail"
+		},
+		{
+			"name": "Grand Opera Night. Collect $50 from every player for opening night seats",
+			"type": "playerReward",
+			"amount": 50 
+		},
+		{
+			"name": "Xmas Fund matures. Receive $100",
+			"type": "reward",
+			"amount": 100
+		},
+		{
+			"name": "Income tax refund. Collect $200",
+			"type": "reward",
+			"amount": 20
+		},
+		{
+			"name": "It's your birthday. Collect $10 from every player",
+			"type": "playerReward",
+			"amount": 10
+		},
+		{
+			"name": "Life insurance matures - Collect $100",
+			"type": "reward",
+			"amount": 100
+		},
+		{
+			"name": "Hospital Fees. Pay $50",
+			"type": "pay",
+			"amount": 50
+		},
+		{
+			"name": "School fees. Pay $50",
+			"type": "pay",
+			"amount": 50
+		},
+		{
+			"name": "Receive $25 consultancy fee",
+			"type": "reward",
+			"amount": 25
+		},
+		{
+			"name": "You are assessed for street repair. Pay $40 per hosue and $115 pert hotel your own",
+			"type": "housePay",
+			"house": 40,
+			"hotel": 115
+		},
+		{
+			"name": "You have won second prize in a beauty contest. Collect $10",
+			"type": "reward",
+			"amount": 10
+		},
+		{
+			"name": "You have inherit $100",
+			"type": "reward",
+			"amount": 100
+		}
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"name": "terminator",
+	"version": "1.0.0",
+	"description": "Beware of the Terminator. He is also helpful",
+	"main": "bot.js",
+	"author": "CoolGuyPro1001",
+	"dependencies": {
+		"discord.io": "^2.5.3",
+		"discord.js": "^12.2.0",
+		"winston": "^3.2.1"
+	}
+}
