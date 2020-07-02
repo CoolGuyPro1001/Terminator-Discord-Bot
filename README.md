@@ -1,6 +1,6 @@
 # Terminator-Discord-Bot
 
-# Contributing
+## Contributing
 1. Clone This Repository
 2. Make a JSON file called auth.json
 3. Insert this text to auth.json
