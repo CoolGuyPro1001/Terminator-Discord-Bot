@@ -1,4 +1,5 @@
 const fileSystem = require("fs");
+const { PRIORITY_HIGHEST, EILSEQ } = require("constants");
 var monopolyInfo;
 
 fileSystem.readFile("monopoly.json",
@@ -70,10 +71,13 @@ class Monopoly
             money: money,
             position: 0,
             properties: new Array(0),
-            inJail: false
+            inJail: false,
+            escapeAttempts: 0,
+            doublesCount: 0,
+            jailFreeCards: 0
         });
 
-        return newPlayer + "Has Joined The Game";
+        return newPlayer + " Has Joined The Game";
     }
 
     RemovePlayer(player)
@@ -94,19 +98,6 @@ class Monopoly
     {
         var roll = Math.floor(Math.random() * 6) + 1;
         return roll;
-    }
-
-    ChangedProperties(position)
-    {
-        for(var i = 0; i < this.propertyData.length; i++)
-        {
-            if(this.propertyData[i].position = position)
-            {
-                return this.propertyData[i];
-            }
-        }
-
-        return null;
     }
 
     Shuffle(deck) {
@@ -197,7 +188,7 @@ class Monopoly
                 });
                 break;
             case "free":
-                this.currentPlayer.getOutCards++;
+                this.currentPlayer.jailFreeCards++;
                 break;
             case "jail":
                 this.currentPlayer.position = 10;
@@ -235,12 +226,30 @@ class Monopoly
     NextPlayer()
     {
         this.onProperty = false;
-        this.turn = (this.turn == this.players.length - 1) ? 0 : this.turn++;;
+        if(!this.rolledDoubles)
+        {
+            if(this.turn == this.players.length - 1)
+            {
+                this.turn = 0;
+            }
+            else
+            {
+                this.turn++;
+            }
+        }
     }
 
     NextBidder()
     {
-        this.auctionTurn = (this.auctionTurn == this.auctionPlayers.length - 1) ? 0 : this.auctionTurn++;
+        if(this.auctionTurn == this.auctionPlayers.length - 1)
+        {
+            this.auctionTurn = 0;
+        }
+        else
+        {
+            this.auctionTurn++;
+        }
+
         return this.auctionPlayers[this.auctionTurn];
     }
 
@@ -289,10 +298,33 @@ class Monopoly
 
     RollDice()
     {
-        //Move the player
         this.currentPlayer = this.players[this.turn];
-        this.dice1 = 1//this.Roll();
-        this.dice2 = 0//this.Roll();
+        //Move the player
+        if(this.currentPlayer.inJail)
+        {
+            var attempts;
+            switch(this.currentPlayer.escapeAttempts) 
+            {
+                case 0:
+                    attempts =  "First";
+                    break;
+                case 1:
+                    attempts =  "Second";
+                    break;
+                case 2:
+                    attempts = "Third";
+                    break;
+            }
+
+            return "You Are In Jail. This is Your " + attempts + " Attempt At Escaping" + 
+            "\nYou Have Three Tries To Get Out, Otherwise You Must Pay $50" +
+            "\n!pay: Pay $50 To Get Out" + 
+            "\n!roll: Roll Doubles To Get Out";
+        }
+
+        
+        this.dice1 = 30;//this.Roll();
+        this.dice2 = 0;//this.Roll();
         
         //Rolled Doubles
         if(this.dice1 == this.dice2)
@@ -310,53 +342,158 @@ class Monopoly
                 this.rolledDoubles = true;
             }
         }
+        else
+        {
+            this.rolledDoubles = false;
+            this.currentPlayer.doublesCount = 0;
+        }
 
         return "First Dice: " + this.dice1 + "\nSecond Dice: " + this.dice2;
     }
 
     MovePlayer()
     {
-        this.currentPlayer.position += (this.dice1 + this.dice2);
+        this.currentPlayer.position += (this.dice1 + this.dice2)
+
+        if(this.currentPlayer.position >= 40)
+        {
+            this.currentPlayer.position %= 40;
+        }
+
         var currentPosition = this.currentPlayer.position;
         this.currentPlace = monopolyInfo.places[currentPosition];
         return "Moving " + this.currentPlayer.name + " " + (this.dice1 + this.dice2) + " Spaces\n" + this.currentPlayer.name + " has landed on " + this.currentPlace.name;
     }
 
+    JailChoice(choice)
+    {
+        switch(choice)
+        {
+            case "pay":
+                this.currentPlayer.money -= 50;
+                this.currentPlayer.inJail = false;
+                this.currentPlayer.escapeAttempts = 0;
+                return this.currentPlayer.name + " Payed $50 To Get Out Of Jail";
+            case "roll":
+                this.dice1 = this.Roll();
+                this.dice2 = this.Roll();
+                let rolling = "Rolling...\nFirst Dice: " + this.dice1 + "\nSecond Dice: " + this.dice2;
+                
+                if(this.dice1 == this.dice2)
+                {
+                    this.currentPlayer.position += (dice1 + dice2);
+                    this.currentPlayer.inJail = false;
+                    this.currentPlayer.escapeAttempts = 0;
+                    return rolling += "\nYou Rolled Doubles. You're Free!";
+                }
+                
+                if(this.currentPlayer.escapeAttempts == 2)
+                {
+                    this.currentPlayer.money -= 50;
+                    this.currentPlayer.escapeAttempts = 0;
+                    this.currentPlayer.inJail = false;
+                    return rolling += "\n" + this.currentPlayer.name + " Didn't Roll Doubles For Three Tries" +
+                    "\nThey Must Now Pay $50";
+                }
+
+                this.currentPlayer.escapeAttempts++;
+                return rolling += "\nBetter Luck Next Time";
+            case "card":
+                if(this.currentPlayer.jailFreeCards == 0)
+                {
+                    return "You Don't Have A Get Out Of Jail Free Card";
+                }
+
+                this.currentPlayer.inJail = false;
+                this.currentPlayer.escapeAttempts = 0;
+                this.currentPlayer.jailFreeCards--;
+                return this.currentPlayer.name + " Used A Get Out Of Jail Free Card";
+        }
+    }
+
+    GetTitle(property)
+    {
+        var title = 
+        {
+            owner,
+            property
+        }
+
+        for(var pl = 0; pl < this.players.length; pl++)
+        {
+            for(var p = 0; p < this.players[pl].properties.length; p++)
+            {
+                if(this.players[pl].propteries[p] == property)
+                {
+                    title.owner = this.player[pl];
+                    title.property = this.players[pl].properties[p];
+                }
+            }
+        }
+
+        return title;
+    }
+
     OnPlayerTurn()
     {
         //Do Action Base On Place
+        var message;
         switch(this.currentPlace.type)
         {
             case "property":
                 this.onProperty = true;
-                var property = this.ChangedProperties(this.currentPosition)
-                if(property == null)
+                var property = monopolyInfo.places[this.currentPosition];
+                let title = GetTitle(property);
+
+                if(title == null)
                 {
                     //Buy or auction property
-                    return "buyProperty";
+                    message = "This Property Is For Sell, Would You Like To Buy It" +
+                    "\nPrice: $" + this.currentPlace.price +
+                    "\nIf You Don't Buy It, It Will Be Auctioned" +
+                    "\nYou have $" + this.currentPlayer.money +
+                    "\n!buy: Buy Property\n!nobuy: Put Property On Auction"
                 }
-                else if(!property.isMortgaged)
+                else
                 {
-                    let owner = this.players.indexOf(property.owner);
-                    owner.money += this.currentPlace.basedRent;
-                    this.currrentPlayer.money -= this.currentPlace.basedRent;
-                    return "payRent";
+                    if(!title.property.isMortgaged)
+                    {
+                        title.owner.money += this.currentPlace.basedRent;
+                        this.currrentPlayer.money -= this.currentPlace.basedRent;
+                        message = "This Property Belongs To " + title.owner.name + ", PAY UP!!!" +
+                        "\nThe Rent Was $" + title.property.rent;
+                    }
                 }
                 break;
             case "chance":
-                return "chance";
+                message = "Pulling Out A Chance Card...\n";
+                message += this.DoCard("chance");
+                break;
             case "chest":
-                return "chest";
+                message = "Pulling Out A Community Chest Card...\n"
+                message += this.DoCard("chest");
+                break;
             case "tax":
                 this.currentPlayer.money -= this.currentPlace.price;
-                return "tax";
+                message = "Sorry " + this.currentPlayer.name + ", You Have To Pay Your Taxes" +
+                "\n The Tax Costed $" + this.currentPlace.price;
+                break;
             case "parking":
-                this.currentPlayer.money += parkingmoney;
+                //this.currentPlayer.money += this.parkingmoney;
                 break;
             case "go":
                 this.currentPlayer.money += 200;
-                return "go";
-        }      
+                message = "Here's $200 For Landing On GO";
+                break;
+            case "jail":
+                this.currentPlayer.inJail = true;
+                this.currentPlayer.position = 10;
+                this.rolledDoubles = false;
+                this.doublesCount = 0;
+                message = this.currentPlayer.name + " Has Landed On Jail";
+                break;
+        } 
+        return message;
     }
 
     BuyProperty()
@@ -364,12 +501,13 @@ class Monopoly
         if(this.currentPlayer.money >= this.currentPlace.price)
         {
             this.currentPlayer.money -= this.currentPlace.price;
-            this.currentPlayer.properties.push(
-            {
-                name : this.currentPlace.name,
-                rent : this.currentPlace.baseRent,
-                stage : 0,
-                color: this.currentPlace.color
+            this.currentPlayer.properties.push
+            ({
+                name: this.currentPlace.name,
+                rent: this.currentPlace.baseRent,
+                stage: 0,
+                color: this.currentPlace.color,
+                isMortgaged: false
             });
         }
 
@@ -427,19 +565,10 @@ class Monopoly
 
     Upgrade(playerName, propertyName)
     {
-        let player;
-        this.players.forEach(p =>
-        {
-            if(p.name == playerName)
-            {
-                player = p;
-            }
-        });
-
+        let player = this.players.find(p => p.name == playerName);
         let property = player.properties.find(p => p.name == propertyName);
         let numOfColors = 0;
 
-        
         //Count properties that have same color as requested property
 
         if(property == null)

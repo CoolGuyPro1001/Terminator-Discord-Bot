@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-//const Monopoly = require('./monopoly.js');
+const Monopoly = require('./monopoly.js');
 const { prefix, token } = require('./config.json');
 const terminator = new Discord.Client();
 
@@ -43,41 +43,30 @@ function CombineStrings(stringArray)
 
 function StartTurn()
 {
-    say("It's your turn, " + monopolyGame.players[monopolyGame.turn].name);
+    say
+    (
+        "It's your turn, " + monopolyGame.players[monopolyGame.turn].name + 
+        "\nRolling...\n" +
+        monopolyGame.RollDice()
+    );
 
-    say("Rolling...");
-    say(monopolyGame.RollDice());
-    say(monopolyGame.MovePlayer());
-    var outcome = monopolyGame.OnPlayerTurn();
-    switch(outcome)
+    if(!monopolyGame.currentPlayer.inJail)
     {
-        case "buyProperty":
-            say("This Property Is For Sell, Would You Like To Buy It" +
-            "\nPrice: $" + monopolyGame.currentPlace.price +
-            "\nIf You Don't Buy It, It Will Be Auctioned" +
-            "\nYou have $" + monopolyGame.currentPlayer.money +
-            "\nUse !buy To Buy, !nobuy To Not Buy");
-            break;
-        case "chance":
-            say("Pulling Out A Chance Card...");
-            say(monopolyGame.DoCard("chance"));
-            break;
-        case "chest":
-            say("Pulling Out A Community Chest Card...");
-            say(monopolyGame.DoCard("chest"));
-            break;
-        case "tax":
-            say("Sorry " + monopolyGame.currentPlayer.name + ", You Have To Pay Your Taxes" +
-            "\n The Tax Costed " + monopolyGame.currentPlace.price);
-            break;
-        case "go":
-            say("Heres $200 For Landing On GO");
-            break;
+        say
+        (
+            monopolyGame.MovePlayer() + "\n" +
+            monopolyGame.OnPlayerTurn()
+        );
     }
 
-    say("Would You Like To Do Anything Else?" +
-    "\n!location to print current location" +
-    "\n!done to finish turn");
+    say
+    (
+        "More Commands" +
+        "\n!location: Print Current Location" +
+        "\n!inventory: Print Inventory" +
+        "\n!upgrade [property name]: Upgrade Property" +
+        "\n!done: Finish turn"
+    );
 }
 
 terminator.on('message', message => 
@@ -297,6 +286,25 @@ terminator.on('message', message =>
             type: command[2],
         });
     }
+    else if(message.content.startsWith(`${prefix}search`))
+    {
+        console.log(message.channel.name);
+        let game = command[1];
+        game += "-general";
+        let channel = server.channels.cache.array().find(c => c.name == game);
+        if(channel == undefined)
+        {
+            say("There is no game with that name");
+            return;
+        }
+        const searchEmbed =
+        {
+            title: "Search Result",
+            description: `<#${channel.id}>`
+        };
+
+        say({embed: searchEmbed});
+    }
 
     if(monopolyGame != null)
     {
@@ -327,114 +335,110 @@ terminator.on('message', message =>
             }
             return;
         }
+
         
-        if(message.content.startsWith(`${prefix}buy`))
+        switch(command[0])
         {
-            if(monopolyGame.currentPlayer.name != author.username)
-            {
-                say("It's Not Your Turn");
-                return;
-            }
-
-            if(!monopolyGame.onProperty)
-            {
-                say("What Property To Buy?");
-                return;
-            }
-
-            say(monopolyGame.BuyProperty());
-        }
-        else if(message.content.startsWith(`${prefix}nobuy`))
-        {
-            if(monopolyGame.currentPlayer.name != author.username)
-            {
-                say("It's Not Your Turn");
-                return;
-            }
-
-            if(!monopolyGame.onProperty)
-            {
-                say("What Property To Buy?");
-                return;
-            }
-
-            monopolyGame.StartAuction();
-            say("An Auction Has Started!\nUse !bid [amount] To Bid\nUse !pass To Pass On Your Turn");
-        }
-        else if(message.content.startsWith(`${prefix}bid`))
-        {
-            if(!monopolyGame.inAuction)
-            {
-                say("There Is No Auction Going On");
-                return;
-            }
-
-            if(monopolyGame.currentBidder.name != author.username)
-            {
-                say("It's Not Your Turn");
-                return;
-            }
-
-            say(monopolyGame.Bid(Number(command[1])));
-            say("Next Bidder Is " + monopolyGame.currentBidder);
-        }
-        else if(message.content.startsWith(`${prefix}pass`))
-        {
-            if(!monopolyGame.inAuction)
-            {
-                say("There Is No Auction Going On");
-                return;
-            }
-
-            if(monopolyGame.currentBidder.name != author.username)
-            {
-                say("It's Not Your Turn");
-                return;
-            }
-
-            say(monopolyGame.Pass());
-        }
-        else if (message.content.startsWith(`${prefix}location`))
-        {
-            say(monopolyGame.GetLocation())
-        }
-        else if(message.content.startsWith(`${prefix}inventory`))
-        {
-            say(monopolyGame.Inventory());
-        }
-        else if(message.content.startsWith(`${prefix}upgrade`))
-        {
-            let propertyName = CombineStrings(command.splice(1, command.length));
-            say(monopolyGame.Upgrade(author.username, propertyName));
-        }
-        else if(message.content.startsWith(`${prefix}debug`))
-        {
-            monopolyGame.currentPlayer.properties.push(
-            {
-                name : "Park Place",
-                rent : 35,
-                stage : 0,
-                color: "Blue"
-            });
-
-            monopolyGame.currentPlayer.properties.push(
+            case `${prefix}buy`:
+                if(monopolyGame.currentPlayer.name != author.username)
                 {
-                    name : "Boardwalk",
-                    rent : 50,
-                    stage : 0,
-                    color: "Blue"
-                });
-        }
-        else if(message.content.startsWith(`${prefix}done`))
-        {
-            if(monopolyGame.currentPlayer.name != author.username)
-            {
-                say("Your Turn Hasn't Even Started");
-                return;
-            }
+                    say("It's Not Your Turn");
+                    return;
+                }
 
-            monopolyGame.NextPlayer();
-            StartTurn();
+                if(!monopolyGame.onProperty)
+                {
+                    say("What Property To Buy?");
+                    return;
+                }
+
+                say(monopolyGame.BuyProperty());
+                break;
+            case `${prefix}nobuy`:
+                if(monopolyGame.currentPlayer.name != author.username)
+                {
+                    say("It's Not Your Turn");
+                    return;
+                }
+
+                if(!monopolyGame.onProperty)
+                {
+                    say("What Property To Buy?");
+                    return;
+                }
+
+                monopolyGame.StartAuction();
+                say("An Auction Has Started!\nUse !bid [amount] To Bid");
+                break;
+            case `${prefix}bid`:
+                if(!monopolyGame.inAuction)
+                {
+                    say("There Is No Auction Going On");
+                    return;
+                }
+
+                if(monopolyGame.currentBidder.name != author.username)
+                {
+                    say("It's Not Your Turn");
+                    return;
+                }
+
+                say(monopolyGame.Bid(Number(command[1])));
+                say("Next Bidder Is " + monopolyGame.currentBidder);
+                break;
+            case `${prefix}pass`:
+                if(!monopolyGame.inAuction)
+                {
+                    say("There Is No Auction Going On");
+                    return;
+                }
+
+                if(monopolyGame.currentBidder.name != author.username)
+                {
+                    say("It's Not Your Turn");
+                    return;
+                }
+
+                say(monopolyGame.Pass());
+                break;
+            case `${prefix}location`:
+                say(monopolyGame.GetLocation());
+                break;
+            case `${prefix}inventory`:
+                say(monopolyGame.Inventory());
+                break;
+            case `${prefix}upgrade`:
+                let propertyName = CombineStrings(command.splice(1, command.length));
+                say(monopolyGame.Upgrade(author.username, propertyName));
+                break;
+            case `${prefix}pay`:
+                if(!monopolyGame.currentPlayer.inJail)
+                {
+                    say("You Are Not Even In Jail");
+                    return;
+                }
+
+                say(monopolyGame.JailChoice("pay"));
+                break;
+            case `${prefix}roll`:
+                if(!monopolyGame.currentPlayer.inJail)
+                {
+                    say("You Are Not Even In Jail");
+                    return;
+                }
+
+                say(monopolyGame.JailChoice("roll"));
+                break;
+            case `${prefix}done`:
+                if(monopolyGame.currentPlayer.name != author.username)
+                {
+                    say("Your Turn Hasn't Even Started");
+                    return;
+                }
+
+                monopolyGame.NextPlayer();
+                StartTurn();
+                break;
         }
     }
 });
